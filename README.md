@@ -38,7 +38,7 @@ chmod +x letsencrypt-gehirn.php
 ```
 ./dehydrated --cron --challenge dns-01 --hook ./letsencrypt-gehirn.php
 ```
-正常に終わればcertsフォルダにSSL証明書が作成されて、CERT_DIRにもコピーされています。
+正常に終わればcertsフォルダにSSL証明書が作成されて、CERT_DIRにもコピーされます。
 エラーがあればメッセージに従って対応します。
 ### CRON設定について
 以下は毎朝７時５分にスクリプトを実行するCRON設定です。毎朝実行されますが、証明書の有効期限が３０日を切らない限り、証明書の再取得はされません。
