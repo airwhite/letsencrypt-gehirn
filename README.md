@@ -1,4 +1,4 @@
-# letsencrypt-gehirn.php
+# letsencrypt-gehirn
 Let's Encrypt hook script for Gehirn DNS Web Service API
 ## これはなに？
 - Gehirn DNS で Let's Encrypt をDNS認証（DNS-01）して使うための PHP Hook Script です。
