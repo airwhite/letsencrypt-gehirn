@@ -17,7 +17,29 @@ Let's Encrypt hook script for Gehirn DNS Web Service API
 - APIキーを設定したら権限管理からDNSのゾーンでアクセスを許可するゾーンをフルアクセスにします。
 - APIについては [公式 Gehirn Web Services API Documentation](https://support.gehirn.jp/apidocs/) または [非公式 Gehirn DNS API 仕様](https://yosida95.com/2015/12/18/gehirn_dns_api_spec.html) を参考にします。
 ### ソースをサーバーに配置
-- letsencrypt-gehirn.zip をサーバーで解凍します。
+- letsencrypt-gehirn.zip をサーバー上の適当に場所にダウンロードします。
+```
+unzip letsencrypt-gehirn.zip
+cd letsencrypt
+```
+- 解凍したフォルダに dehydrated スクリプトを置きます。
+- 解凍したフォルダの domains.txt を修正します。
+- 解凍したフォルダの letsencrypt-gehirn.php の START_WEB, STOP_WEB, CERT_DIR, GMAIL_USER, GMAIL_PASS, SEND_TO を設定します。
+- 解凍したフォルダの lib/gehirnDNS.php の GEHIRN_API_TOKEN, GEHIRN_API_SECRET を設定します。
+- 解凍したフォルダの lib/PHPMailer フォルダに PHPMailerをダウンロードしてsrcフォルダとlanguageフォルダを移動します。
+### 初回 Let's Encrypt Account 登録作業
+メールアドレスは使いません。
+```
+./dehydrated --register --accept-terms
+```
+これで accountフォルダが作成されます。
+### SSL証明書の取得
+```
+./dehydrated --cron --challenge dns-01 --hook ./letsencrypt-gehirn.php
+```
+正常に終わればcertsフォルダにSSL証明書が作成されて、CERT_DIRにもコピーされています。
+エラーがあればメッセージに従って対応します。
+### CRON設定について
 ### hook機能について
 これは dehydrated の docs/example/hook.sh に書かれていたコメントを機械翻訳したものです。
 #### deploy_challenge
