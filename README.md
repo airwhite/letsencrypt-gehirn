@@ -21,18 +21,19 @@ Let's Encrypt hook script for Gehirn DNS Web Service API
 ```
 unzip letsencrypt-gehirn.zip
 cd letsencrypt
+chmod +x letsencrypt-gehirn.php
 ```
-- 解凍したフォルダに dehydrated スクリプトを置きます。
-- 解凍したフォルダの domains.txt を修正します。
-- 解凍したフォルダの letsencrypt-gehirn.php の START_WEB, STOP_WEB, CERT_DIR, GMAIL_USER, GMAIL_PASS, SEND_TO を設定します。
-- 解凍したフォルダの lib/gehirnDNS.php の GEHIRN_API_TOKEN, GEHIRN_API_SECRET を設定します。
-- 解凍したフォルダの lib/PHPMailer フォルダに PHPMailerをダウンロードしてsrcフォルダとlanguageフォルダを移動します。
+- letsencrypt　に dehydrated スクリプトを置き、実行権限を付けます。
+- letsencrypt　の domains.txt を修正します。
+- letsencrypt　の letsencrypt-gehirn.php の START_WEB, STOP_WEB, CERT_DIR, GMAIL_USER, GMAIL_PASS, SEND_TO を設定します。
+- letsencrypt/lib/gehirnDNS.php の GEHIRN_API_TOKEN, GEHIRN_API_SECRET を設定します。
+- letsencrypt/lib/PHPMailer フォルダにPHPMailerのsrcフォルダとlanguageフォルダを移動します。
 ### 初回 Let's Encrypt Account 登録作業
 メールアドレスは使いません。
 ```
 ./dehydrated --register --accept-terms
 ```
-これで accountフォルダが作成されます。
+これでaccountフォルダが作成されます。
 ### SSL証明書の取得
 ```
 ./dehydrated --cron --challenge dns-01 --hook ./letsencrypt-gehirn.php
@@ -40,6 +41,10 @@ cd letsencrypt
 正常に終わればcertsフォルダにSSL証明書が作成されて、CERT_DIRにもコピーされています。
 エラーがあればメッセージに従って対応します。
 ### CRON設定について
+以下は毎朝７時５分にスクリプトを実行するCRON設定です。毎朝実行されますが、証明書の有効期限が３０日を切らない限り、証明書の再取得はされません。
+```
+5 7 * * * /root/letsencrypt/dehydrated --cron --challenge dns-01 --hook /root/letsencrypt/letsencrypt-gehirn.php
+```
 ### hook機能について
 これは dehydrated の docs/example/hook.sh に書かれていたコメントを機械翻訳したものです。
 #### deploy_challenge
